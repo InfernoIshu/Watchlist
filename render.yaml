@@ -1,0 +1,36 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: watchlist-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        fromConfig: MONGO_URI
+      - key: FRONTEND_URL
+        fromConfig: FRONTEND_URL
+    region: ohio
+    rootDir: server
+
+  # Frontend Static Site
+  - type: static
+    name: watchlist-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_SUPABASE_URL
+        fromConfig: VITE_SUPABASE_URL
+      - key: VITE_SUPABASE_ANON_KEY
+        fromConfig: VITE_SUPABASE_ANON_KEY
+      - key: VITE_API_URL
+        fromConfig: VITE_API_URL
+      - key: VITE_TMDB_API_KEY
+        fromConfig: VITE_TMDB_API_KEY
+    region: ohio
+    rootDir: client
