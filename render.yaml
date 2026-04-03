@@ -19,8 +19,9 @@ services:
     rootDir: server
 
   # Frontend Static Site
-  - type: static
+  - type: web
     name: watchlist-frontend
+    runtime: static
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
