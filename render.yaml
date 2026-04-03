@@ -12,9 +12,9 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGO_URI
-        fromConfig: MONGO_URI
+        sync: false
       - key: FRONTEND_URL
-        fromConfig: FRONTEND_URL
+        sync: false
     region: ohio
     rootDir: server
 
@@ -26,12 +26,11 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_SUPABASE_URL
-        fromConfig: VITE_SUPABASE_URL
+        sync: false
       - key: VITE_SUPABASE_ANON_KEY
-        fromConfig: VITE_SUPABASE_ANON_KEY
+        sync: false
       - key: VITE_API_URL
-        fromConfig: VITE_API_URL
+        sync: false
       - key: VITE_TMDB_API_KEY
-        fromConfig: VITE_TMDB_API_KEY
-    region: ohio
+        sync: false
     rootDir: client
