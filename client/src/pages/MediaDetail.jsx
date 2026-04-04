@@ -85,33 +85,39 @@ export default function MediaDetail() {
   const poster = `https://image.tmdb.org/t/p/w500${item.poster_path}`
 
   return (
-    <div className="min-h-screen text-white pb-20">
+    <div className="min-h-screen text-white pb-20 bg-[#0f172a]">
       {/* Hero Section */}
-      <div className="relative min-h-[85vh] w-full overflow-hidden flex flex-col justify-center">
-        <div className="absolute inset-0 z-0 scale-110 blur-sm brightness-[0.3]">
+      <div className="relative min-h-[90vh] lg:min-h-[85vh] w-full overflow-hidden flex flex-col justify-end lg:justify-center">
+        <div className="absolute inset-0 z-0 scale-110 blur-sm brightness-[0.2] md:brightness-[0.3]">
           <img src={backdrop} className="w-full h-full object-cover" alt="" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/60 to-transparent z-10"></div>
         
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-6 py-32 mt-12">
-          <div className="flex flex-col md:flex-row gap-8 items-start w-full">
-            <img src={poster} className="w-48 md:w-64 rounded-xl shadow-2xl border border-slate-700/50 hidden md:block" alt="" />
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <span className="px-2 py-1 bg-red-600 text-[10px] font-bold rounded uppercase tracking-wider">{type}</span>
-                <span className="text-slate-300 text-sm">{item.release_date || item.first_air_date}</span>
-                <span className="text-yellow-500 font-bold ml-auto text-xl pr-2">★ {item.vote_average?.toFixed(1)}</span>
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 md:px-6 py-20 lg:py-32">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start w-full">
+            {/* Poster - Visible on Mobile now but centered */}
+            <div className="w-48 md:w-64 shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-2xl overflow-hidden border border-white/10">
+               <img src={poster} className="w-full h-full object-cover" alt="" />
+            </div>
+
+            <div className="flex-1 text-center lg:text-left">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-4">
+                <span className="px-3 py-1 bg-red-600 text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg shadow-red-900/40">{type}</span>
+                <span className="text-slate-400 text-sm font-bold">{item.release_date || item.first_air_date}</span>
+                <div className="hidden md:block h-4 w-[1px] bg-slate-800 mx-1"></div>
+                <span className="text-yellow-500 font-black text-2xl">★ {item.vote_average?.toFixed(1)}</span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tight leading-none">{item.title || item.name}</h1>
-              <p className="text-slate-300 max-w-3xl line-clamp-3 md:line-clamp-none text-lg leading-relaxed">{item.overview}</p>
               
-              <div className="mt-8 flex flex-wrap gap-4 items-center">
-                <div className="flex flex-col gap-1">
-                   <label className="text-[10px] uppercase font-bold text-slate-500 ml-1">Status</label>
+              <h1 className="text-4xl md:text-6xl lg:text-8xl font-black mb-6 tracking-tighter leading-[0.9] uppercase italic">{item.title || item.name}</h1>
+              <p className="text-slate-400 max-w-3xl line-clamp-4 md:line-clamp-none text-base md:text-xl leading-relaxed font-medium mx-auto lg:mx-0">{item.overview}</p>
+              
+              <div className="mt-10 flex flex-col sm:flex-row flex-wrap gap-4 items-stretch sm:items-center justify-center lg:justify-start">
+                <div className="flex flex-col gap-1.5 flex-1 sm:flex-none">
+                   <label className="text-[10px] uppercase font-black text-slate-500 ml-1 tracking-widest">Update Status</label>
                    <select 
                       value={status} 
                       onChange={(e) => setStatus(e.target.value)}
-                      className="bg-slate-900/80 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:border-red-500 transition cursor-pointer text-sm"
+                      className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-xl px-4 py-4 outline-none focus:border-red-500 transition cursor-pointer text-sm font-bold appearance-none w-full"
                     >
                       <option value="plan_to_watch">Plan to Watch</option>
                       <option value="watching">Currently Watching</option>
@@ -120,12 +126,12 @@ export default function MediaDetail() {
                     </select>
                 </div>
 
-                <div className="flex flex-col gap-1">
-                   <label className="text-[10px] uppercase font-bold text-slate-500 ml-1">Your Rating</label>
+                <div className="flex flex-col gap-1.5 flex-1 sm:flex-none min-w-[120px]">
+                   <label className="text-[10px] uppercase font-black text-slate-500 ml-1 tracking-widest">Your Score</label>
                    <select 
                       value={userRating} 
                       onChange={(e) => setUserRating(Number(e.target.value))}
-                      className="bg-slate-900/80 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:border-red-500 transition cursor-pointer text-sm min-w-[100px]"
+                      className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-xl px-4 py-4 outline-none focus:border-red-500 transition cursor-pointer text-sm font-bold appearance-none w-full"
                     >
                       {[...Array(10)].map((_, i) => (
                         <option key={i+1} value={i+1}>{i+1} / 10</option>
@@ -136,9 +142,9 @@ export default function MediaDetail() {
                  <button 
                   onClick={handleAdd}
                   disabled={adding || isSuccess}
-                  className={`${isSuccess ? 'bg-green-600' : 'bg-red-600 hover:bg-red-700'} disabled:opacity-75 px-8 py-3 rounded-lg font-bold text-lg transition-all flex items-center gap-2 shadow-lg active:scale-95 mt-5 md:mt-4`}
+                  className={`${isSuccess ? 'bg-green-600' : 'bg-red-600 hover:bg-red-700'} disabled:opacity-75 px-10 py-4 rounded-xl font-black text-lg uppercase tracking-tighter transition-all flex items-center justify-center gap-3 shadow-2xl shadow-red-900/40 active:scale-95 sm:mt-5`}
                 >
-                  {adding ? 'Adding...' : isSuccess ? '✓ Added to List' : 'Add to Watchlist'}
+                  {adding ? 'Syncing...' : isSuccess ? '✓ Saved to List' : 'Add to Collection'}
                 </button>
               </div>
             </div>

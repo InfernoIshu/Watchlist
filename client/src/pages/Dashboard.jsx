@@ -109,41 +109,62 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="pt-24 pb-12 px-6 max-w-7xl mx-auto min-h-screen animate-in fade-in duration-700">
-      <div className="flex justify-between items-end mb-10">
+    <div className="pt-24 pb-12 px-4 md:px-6 max-w-7xl mx-auto min-h-screen animate-in fade-in duration-700">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-10 gap-6">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-white mb-2">My Stats</h1>
-          <p className="text-slate-400">Overview of your watching progress and history.</p>
+          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-2 uppercase">My Statistics</h1>
+          <p className="text-slate-400 text-sm md:text-base">Real-time overview of your media consumption and progress.</p>
         </div>
-        <div className="text-right">
-          <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-1">Total Titles</p>
-          <p className="text-4xl font-black text-red-600 leading-none">{stats.total}</p>
+        <div className="flex items-center gap-4 bg-slate-900/50 p-4 rounded-2xl border border-slate-800 self-start md:self-auto">
+          <div className="text-left md:text-right">
+            <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Total Titles</p>
+            <p className="text-3xl md:text-4xl font-black text-red-600 leading-none">{stats.total}</p>
+          </div>
+          <div className="h-8 w-[1px] bg-slate-800"></div>
+          <div className="text-left md:text-right">
+            <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Items Left</p>
+            <p className="text-3xl md:text-4xl font-black text-slate-300 leading-none">{stats.planToWatch + stats.watching}</p>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
         {/* Watch Time Summary Card */}
-        <div className="lg:col-span-12 bg-gradient-to-r from-red-900/40 to-slate-900/40 border border-red-900/50 rounded-2xl p-8 mb-4 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-8">
-           <div>
-              <h3 className="text-red-500 font-bold text-xs uppercase tracking-widest mb-2">Total Watch Time</h3>
-              <div className="flex items-baseline gap-4">
-                 <div className="flex items-baseline gap-1">
-                    <span className="text-5xl font-black">{time.days}</span>
-                    <span className="text-slate-400 text-sm font-bold uppercase">Days</span>
+        <div className="lg:col-span-12 bg-gradient-to-br from-red-900/20 via-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 md:p-10 mb-2 backdrop-blur-md flex flex-col lg:flex-row items-center justify-between gap-10 overflow-hidden relative group">
+           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+              <span className="text-9xl font-black text-red-600">TIME</span>
+           </div>
+           
+           <div className="relative z-10 w-full lg:w-auto text-center lg:text-left">
+              <h3 className="text-red-500 font-black text-xs uppercase tracking-[0.3em] mb-4">Cumulative Watch Time</h3>
+              <div className="flex flex-wrap justify-center lg:justify-start items-baseline gap-4 md:gap-8">
+                 <div className="flex flex-col items-center lg:items-baseline">
+                    <span className="text-5xl md:text-7xl font-black text-white">{time.days}</span>
+                    <span className="text-slate-500 text-[10px] md:text-xs font-black uppercase tracking-widest">Days</span>
                  </div>
-                 <div className="flex items-baseline gap-1">
-                    <span className="text-5xl font-black">{time.hours}</span>
-                    <span className="text-slate-400 text-sm font-bold uppercase">Hours</span>
+                 <div className="flex flex-col items-center lg:items-baseline">
+                    <span className="text-5xl md:text-7xl font-black text-white">{time.hours}</span>
+                    <span className="text-slate-500 text-[10px] md:text-xs font-black uppercase tracking-widest">Hours</span>
                  </div>
-                 <div className="flex items-baseline gap-1">
-                    <span className="text-5xl font-black">{time.minutes}</span>
-                    <span className="text-slate-400 text-sm font-bold uppercase">Min</span>
+                 <div className="flex flex-col items-center lg:items-baseline">
+                    <span className="text-5xl md:text-7xl font-black text-white">{time.minutes}</span>
+                    <span className="text-slate-500 text-[10px] md:text-xs font-black uppercase tracking-widest">Minutes</span>
                  </div>
               </div>
            </div>
-           <div className="text-right hidden md:block">
-              <p className="text-xs text-slate-500 uppercase font-bold mb-1 italic">Total Minutes</p>
-              <p className="text-2xl font-mono text-slate-300 tracking-tighter">{stats.totalMinutes.toLocaleString()}</p>
+
+           <div className="relative z-10 w-full lg:w-auto flex flex-col items-center lg:items-end gap-2 border-t lg:border-t-0 lg:border-l border-slate-800/50 pt-8 lg:pt-0 lg:pl-12">
+              <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest italic mb-2">Detailed Breakdown</p>
+              <div className="flex gap-10">
+                <div className="text-center lg:text-right">
+                  <p className="text-xs text-slate-400 mb-1">Minutes</p>
+                  <p className="text-2xl font-mono text-white font-bold">{stats.totalMinutes.toLocaleString()}</p>
+                </div>
+                <div className="text-center lg:text-right">
+                  <p className="text-xs text-slate-400 mb-1">Percent</p>
+                  <p className="text-2xl font-mono text-red-500 font-bold">100%</p>
+                </div>
+              </div>
            </div>
         </div>
 
