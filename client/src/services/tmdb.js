@@ -16,3 +16,10 @@ export const getMovieDetails = (id) => tmdbClient.get(`/movie/${id}`)
 export const getTvDetails = (id) => tmdbClient.get(`/tv/${id}`)
 export const getSimilarToMovie = (id) => tmdbClient.get(`/movie/${id}/similar`)
 export const getSimilarToTv = (id) => tmdbClient.get(`/tv/${id}/similar`)
+export const getSouthIndianMovies = () => tmdbClient.get('/discover/movie', {
+  params: {
+    with_original_language: 'te|ta|ml|kn',
+    sort_by: 'popularity.desc'
+  }
+})
+

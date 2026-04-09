@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getTrending, searchMulti } from '../services/tmdb'
+import { getTrending, searchMulti, getSouthIndianMovies } from '../services/tmdb'
 import MediaCard from '../components/MediaCard'
 import { Search } from 'lucide-react'
 
@@ -8,10 +8,6 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
-
-  useEffect(() => {
-    fetchTrending()
-  }, [])
 
   const fetchTrending = async () => {
     setLoading(true)
@@ -22,6 +18,24 @@ export default function Home() {
       setLoading(false)
     }
   }
+
+  const fetchSouthIndian = async () => {
+    setLoading(true)
+    try {
+      const { data } = await getSouthIndianMovies()
+      setMedia(data.results)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (filter === 'south_indian') {
+      fetchSouthIndian()
+    } else if (media.length === 0 || media[0]?.original_language === 'te' || media[0]?.original_language === 'ta' || media[0]?.original_language === 'ml' || media[0]?.original_language === 'kn') {
+      fetchTrending()
+    }
+  }, [filter])
 
   const handleSearch = async (e) => {
     e.preventDefault()
@@ -39,7 +53,7 @@ export default function Home() {
   }
 
   const filteredMedia = media.filter(item => {
-    if (filter === 'all') return true
+    if (filter === 'all' || filter === 'south_indian') return true
     if (filter === 'movie') return item.media_type === 'movie'
     if (filter === 'tv') return item.media_type === 'tv'
     if (filter === 'anime') return item.genre_ids?.includes(16)
@@ -54,13 +68,13 @@ export default function Home() {
               EXPLORE <span className="text-red-600 italic uppercase">DISCOVERY</span>
            </h2>
            <div className="flex gap-4 mt-4 overflow-x-auto pb-2 scrollbar-hide">
-              {['all', 'movie', 'tv', 'anime'].map(cat => (
+              {['all', 'movie', 'tv', 'anime', 'south_indian'].map(cat => (
                 <button 
                   key={cat} 
                   onClick={() => setFilter(cat)}
-                  className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest border transition-all duration-300 ${filter === cat ? 'bg-red-600 border-red-600 text-white' : 'bg-transparent border-slate-700 text-slate-400 hover:border-red-600/50 hover:text-red-400'}`}
+                  className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest border transition-all duration-300 w-max ${filter === cat ? 'bg-red-600 border-red-600 text-white' : 'bg-transparent border-slate-700 text-slate-400 hover:border-red-600/50 hover:text-red-400'}`}
                 >
-                  {cat === 'movie' ? 'Movies' : cat === 'tv' ? 'TV Series' : cat}
+                  {cat === 'movie' ? 'Movies' : cat === 'tv' ? 'TV Series' : cat === 'south_indian' ? 'South Indian' : cat}
                 </button>
               ))}
            </div>
