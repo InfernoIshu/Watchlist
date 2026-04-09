@@ -152,6 +152,37 @@ export default function MediaDetail() {
         </div>
       </div>
 
+      {/* Video Player Section */}
+      <div className="max-w-7xl mx-auto px-6 mt-16 animate-in slide-in-from-bottom duration-700 delay-200">
+        <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
+          <span className="w-1 h-8 bg-red-600 rounded-full"></span>
+          Watch {item.title || item.name}
+        </h2>
+        <div className="w-full aspect-[16/9] md:aspect-video rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)] border border-slate-800 bg-black relative">
+          {type === 'movie' ? (
+            <iframe 
+              src={`https://www.vidking.net/embed/movie/${id}?color=dc2626`}
+              width="100%" 
+              height="100%" 
+              frameBorder="0" 
+              allowFullScreen 
+              className="absolute inset-0 w-full h-full"
+              title={`Watch ${item.title}`}
+            ></iframe>
+          ) : (
+            <iframe 
+              src={`https://www.vidking.net/embed/tv/${id}/1/1?episodeSelector=true&nextEpisode=true&color=dc2626`}
+              width="100%" 
+              height="100%" 
+              frameBorder="0" 
+              allowFullScreen 
+              className="absolute inset-0 w-full h-full"
+              title={`Watch ${item.name}`}
+            ></iframe>
+          )}
+        </div>
+      </div>
+
       {/* Recommended Section */}
       <div className="max-w-7xl mx-auto px-6 mt-16 animate-in slide-in-from-bottom duration-700">
         <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
